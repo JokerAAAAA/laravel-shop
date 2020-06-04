@@ -5,6 +5,22 @@
  * Date: 2020/6/4
  * Time: 下午1:36
  */
+
+use Illuminate\Support\Facades\Route;
+
+if (!function_exists('route_class')) {
+
+    /**
+     * 当前请求的路由名称转换为CSS类名称
+     *
+     * @return mixed
+     */
+    function route_class()
+    {
+        return str_replace('.', '-', Route::currentRouteName());
+    }
+}
+
 if (!function_exists('create_random_str')) {
 
     /**
