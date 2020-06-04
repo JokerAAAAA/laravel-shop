@@ -11,7 +11,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * 可以被批量赋值的属性
      *
      * @var array
      */
@@ -20,7 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * 数组中的属性会被隐藏
      *
      * @var array
      */
@@ -29,11 +29,21 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * 应进行类型转换的属性
      *
      * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * 地址信息
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
 }
