@@ -19,6 +19,6 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => 'auth', 'verified'], function() {
     // 用户地址信息
-    Route::resource('user_addresses', 'UserAddressesController')->except('show');
+    Route::resource('user_addresses', 'UserAddressesController');
 });
 

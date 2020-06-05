@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '新增收货地址')
+@section('title', ($address->id ? '修改': '新增'). '收货地址')
 
 @section('content')
     <div class="row">
@@ -7,17 +7,22 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="text-center">
-                        新增收货地址
+                        {{ $address->id ? '修改': '新增' }}收货地址
                     </h2>
                 </div>
                 <div class="card-body">
                     <!-- inline-template 代表通过内联方式引入组件 -->
                     <user-addresses-create-and-edit inline-template>
+                        @if($address->id)
+                        <form class="form-horizontal" role="form" action="{{ route('user_addresses.update', ['user_address' => $address->id]) }}" method="post">
+                            @method('PUT')
+                        @else
                         <form class="form-horizontal" role="form" action="{{ route('user_addresses.store') }}" method="post">
+                        @endif
                             <!-- 引入 csrf token 字段 -->
-                            {{ csrf_field() }}
+                            @csrf
                             <!-- 注意这里多了 @change -->
-                            <select-district @change="onDistrictChanged" inline-template>
+                            <select-district :init-value="{{ json_encode([old('province', $address->province), old('city', $address->city), old('district', $address->district)]) }}" @change="onDistrictChanged" inline-template>
                                 <div class="form-group row">
                                     <label class="col-form-label col-sm-2 text-md-right">省市区</label>
                                     <div class="col-sm-3">
@@ -26,7 +31,7 @@
                                             <option v-for="(name, id) in provinces" :value="id">@{{ name }}</option>
                                         </select>
                                         @error('province')
-                                            <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
@@ -37,7 +42,7 @@
                                             <option v-for="(name, id) in cities" :value="id">@{{ name }}</option>
                                         </select>
                                         @error('city')
-                                            <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
@@ -48,7 +53,7 @@
                                             <option v-for="(name, id) in districts" :value="id">@{{ name }}</option>
                                         </select>
                                         @error('district')
-                                            <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
@@ -67,7 +72,7 @@
                                     <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address', $address->address) }}">
 
                                     @error('address')
-                                        <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
@@ -79,7 +84,7 @@
                                     <input id="zip" type="text" class="form-control @error('zip') is-invalid @enderror" name="zip" value="{{ old('zip', $address->zip) }}">
 
                                     @error('zip')
-                                        <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
@@ -91,7 +96,7 @@
                                     <input id="contact_name" type="text" class="form-control @error('contact_name') is-invalid @enderror" name="contact_name" value="{{ old('contact_name', $address->contact_name) }}">
 
                                     @error('contact_name')
-                                        <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
@@ -102,7 +107,7 @@
                                 <div class="col-sm-9">
                                     <input id="contact_phone" type="text" class="form-control @error('contact_phone') is-invalid @enderror" name="contact_phone" value="{{ old('contact_phone', $address->contact_phone) }}">
                                     @error('contact_phone')
-                                        <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
