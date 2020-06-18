@@ -16,10 +16,14 @@ use Illuminate\Support\Facades\Route;
 // 商品列表
 Route::redirect('/', '/products')->name('root');
 Route::get('products', 'ProductsController@index')->name('products.index');
+Route::get('products/{product}', 'ProductsController@show')->name('products.show');
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => 'auth', 'verified'], function() {
-    // 用户地址信息
-    Route::resource('user_addresses', 'UserAddressesController');
-});
+Route::group(
+    ['middleware' => 'auth', 'verified'],
+    function () {
+        // 用户地址信息
+        Route::resource('user_addresses', 'UserAddressesController');
+    }
+);
