@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 // 商品列表
 Route::redirect('/', '/products')->name('root');
+// 商品列表
 Route::get('products', 'ProductsController@index')->name('products.index');
-Route::get('products/{product}', 'ProductsController@show')->name('products.show');
 
 Auth::routes(['verify' => true]);
 
@@ -25,5 +25,15 @@ Route::group(
     function () {
         // 用户地址信息
         Route::resource('user_addresses', 'UserAddressesController');
+
+        // 收藏商品
+        Route::post('products/{product}/favorite', 'ProductsController@favor')->name('products.favor');
+        // 取消收藏
+        Route::delete('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
+        // 收藏列表
+        Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
     }
 );
+
+// 商品详情
+Route::get('products/{product}', 'ProductsController@show')->name('products.show');
