@@ -7,7 +7,7 @@ use App\Models\Cart;
 use App\Models\ProductSku;
 use Illuminate\Http\Request;
 
-class CartController extends Controller
+class CartsController extends Controller
 {
 
     /**
@@ -19,8 +19,9 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $carts = $request->user()->carts()->with(['productSku.product'])->get();
+        $addresses = $request->user()->addresses()->orderBy('last_used_at', 'desc')->get();
 
-        return view('cart.index', ['carts' => $carts]);
+        return view('cart.index', ['carts' => $carts, 'addresses' => $addresses]);
     }
 
     /**
