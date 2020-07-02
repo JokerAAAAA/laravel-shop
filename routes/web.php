@@ -33,8 +33,12 @@ Route::group(
         // 收藏列表
         Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
 
+        // 购物车列表
+        Route::get('carts', 'CartController@index')->name('carts.index');
         // 加入购物车
         Route::post('carts', 'CartController@store')->name('carts.store');
+        // 移除购物车
+        Route::delete('carts/{sku}', 'CartController@destroy')->name('cart.destroy');
     }
 );
 

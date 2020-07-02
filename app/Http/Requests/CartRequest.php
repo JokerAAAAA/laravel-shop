@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Models\ProductSku;
-use Illuminate\Foundation\Http\FormRequest;
 
-class CartRequest extends FormRequest
+class CartRequest extends Request
 {
 
     /**
@@ -19,7 +18,7 @@ class CartRequest extends FormRequest
             'sku_id' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if (!$sku = ProductSku::query()->find($value)) {
+                    if (!$sku = ProductSku::find($value)) {
                         return $fail('该商品不存在');
                     }
                     if (!$sku->product->on_sale) {
