@@ -32,6 +32,9 @@ Route::group(
         Route::delete('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
         // 收藏列表
         Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
+
+        // 加入购物车
+        Route::post('carts', 'CartController@store')->name('carts.store');
     }
 );
 
