@@ -40,10 +40,12 @@ Route::group(
         // 移除购物车
         Route::delete('carts/{sku}', 'CartsController@destroy')->name('carts.destroy');
 
-        //订单列表
+        // 订单列表
         Route::get('orders', 'OrdersController@index')->name('orders.index');
-        //创建订单
+        // 创建订单
         Route::post('orders', 'OrdersController@store')->name('orders.store');
+        // 订单详情
+        Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
     }
 );
 
