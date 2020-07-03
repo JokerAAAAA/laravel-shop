@@ -5,10 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CartRequest;
 use App\Models\Cart;
 use App\Models\ProductSku;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 
 class CartsController extends Controller
 {
+    protected $cartService;
+
+    /**
+     * 利用 Laravel 的字段解析功能注入 CartService 类
+     *
+     * CartsController constructor.
+     * @param CartService $cartService
+     */
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
 
     /**
      * 购物车列表
@@ -18,7 +31,7 @@ class CartsController extends Controller
      */
     public function index(Request $request)
     {
-        $carts = $request->user()->carts()->with(['productSku.product'])->get();
+        $carts = $this->cartService->index();
         $addresses = $request->user()->addresses()->orderBy('last_used_at', 'desc')->get();
 
         return view('carts.index', ['carts' => $carts, 'addresses' => $addresses]);
@@ -32,25 +45,7 @@ class CartsController extends Controller
      */
     public function store(CartRequest $request)
     {
-        $user = $request->user();
-        $skuId = $request->input('sku_id');
-        $amount = $request->input('amount');
-
-        // 从数据库中查询该商品是否已经在购物车中
-        if ($cart = $user->carts()->where('product_sku_id', $skuId)->first()) {
-            // 如果存在则直接叠加商品数量
-            $cart->update(
-                [
-                    'amount' => $cart->amount + $amount,
-                ]
-            );
-        } else {
-            // 否则创建一个新的购物车记录
-            $cart = new Cart(['amount' => $amount]);
-            $cart->user()->associate($user);
-            $cart->productSku()->associate($skuId);
-            $cart->save();
-        }
+        $this->cartService->store($request->input('sku_id'), $request->input('amount'));
 
         return [];
     }
@@ -63,7 +58,7 @@ class CartsController extends Controller
      */
     public function destroy(ProductSku $sku, Request $request)
     {
-        $request->user()->carts()->where('product_sku_id', $sku->id)->delete();
+        $this->cartService->destroy($sku->id);
 
         return [];
     }
