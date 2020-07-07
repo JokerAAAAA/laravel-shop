@@ -13,14 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('alipay', function (){
-    return app('alipay')->web([
-        'out_trade_no' => time(),
-        'total_amount' => '1',
-        'subject' => 'test subject - 测试',
-    ]);
-});
-
 // 商品列表
 Route::redirect('/', '/products')->name('root');
 // 商品列表
@@ -54,8 +46,16 @@ Route::group(
         Route::post('orders', 'OrdersController@store')->name('orders.store');
         // 订单详情
         Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
+
+        // 订单支付 - 支付宝支付
+        Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
+        // 订单支付 - 前端回调页面
+        Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
     }
 );
 
 // 商品详情
 Route::get('products/{product}', 'ProductsController@show')->name('products.show');
+
+// 订单支付 - 服务器回调
+Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');

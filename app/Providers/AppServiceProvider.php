@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
             'alipay',
             function () {
                 $config = config('pay.alipay');
+                $config['return_url'] = route('payment.alipay.return');
                 // 判断当前项目运行环境是否为线上环境
                 if (app()->environment() !== 'production') {
                     $config['mode'] = 'dev';
