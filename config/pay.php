@@ -6,7 +6,7 @@ return [
         'app_id' => env('ALI_APP_ID', '2016101000649547'),
 
         // 支付宝异步通知地址
-        'notify_url' => 'https://requestbin.leo108.com/19n26ne1',
+        'notify_url' => '',
 
         // 支付成功后同步通知地址
         'return_url' => '',

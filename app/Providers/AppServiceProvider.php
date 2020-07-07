@@ -24,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
             'alipay',
             function () {
                 $config = config('pay.alipay');
+                $config['notify_url'] = route('');
+                // 支付成功后同步通知地址
                 $config['return_url'] = route('payment.alipay.return');
                 // 判断当前项目运行环境是否为线上环境
                 if (app()->environment() !== 'production') {
