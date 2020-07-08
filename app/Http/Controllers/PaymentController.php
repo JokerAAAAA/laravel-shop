@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidRequestException;
 use App\Models\Order;
 use Carbon\Carbon;
+use Endroid\QrCode\QrCode;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -38,7 +39,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * 前端回调页面
+     * 支付宝前端回调页面
      */
     public function alipayReturn()
     {
@@ -53,7 +54,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * 服务器端回调
+     * 支付宝服务器端回调
      */
     public function alipayNotify()
     {
@@ -85,5 +86,71 @@ class PaymentController extends Controller
         );
 
         return app('alipay')->success();
+    }
+
+    /**
+     * 微信支付
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return mixed
+     * @throws InvalidRequestException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function payByWechatPay(Order $order, Request $request)
+    {
+        // 校验权限
+        $this->authorize('own', $order);
+        // 校验订单状态
+        if ($order->paid_at || $order->closed) {
+            throw new InvalidRequestException('订单状态不正确');
+        }
+
+        // scan 方法为拉起微信扫码支付
+        $wechatOrder = app('wechatpay')->scan(
+            [
+                'out_trade_no' => $order->no, // 商户订单流水号，与支付宝 out_trade_no 一样
+                'total_fee' => $order->total_amount * 100, // 与支付宝不同，微信支付的金额单位是分。
+                'body' => '支付涂呀商城的订单'.$order->no, // 订单描述
+            ]
+        );
+        // 把要转换的字符串作为 QrCode 的构造函数参数
+        $qrCode = new QrCode($wechatOrder->code_url);
+
+        // 将生成的二维码图片数据以字符串形式输出，并带上相应的响应类型
+        return response($qrCode->writeString(), 200, ['Content-Type' => $qrCode->getContentType()]);
+    }
+
+    /**
+     * 微信服务器端回调
+     *
+     * @return string
+     */
+    public function wechatNotify()
+    {
+        // 校验回调参数是否正确
+        $data = app('wechatpay')->verify();
+        // 找到对应的订单
+        $order = Order::query()->where('no', $data->out_trade_no)->first();
+        // 订单不存在则告知微信支付
+        if (!$order) {
+            return 'fail';
+        }
+
+        // 如果这笔订单的状态已经是已支付
+        if ($order->paid_at) {
+            // 返回数据给支付宝
+            return app('wechatpay')->success();
+        }
+
+        $order->update(
+            [
+                'paid_at' => Carbon::now(), // 支付时间
+                'payment_method' => 'wechatpay', // 支付方式
+                'payment_no' => $data->transaction_id,    // 微信交易订单号
+            ]
+        );
+
+        return app('wechatpay')->success();
     }
 }

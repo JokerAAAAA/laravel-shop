@@ -48,9 +48,13 @@ Route::group(
         Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
 
         // 订单支付 - 支付宝支付
-        Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
-        // 订单支付 - 前端回调页面
+        Route::get('payment/{order}/alipay', 'PaymentController@payByAliPay')->name('payment.alipay');
+        // 订单支付 - 支付宝支付前端回调页面
         Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
+        // 订单支付 - 微信支付
+        Route::get('payment/{order}/wechat', 'PaymentController@payByWechatPay')->name('payment.wechat');
+        // 订单支付 - 微信支付前端回调页面
+        Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
     }
 );
 
