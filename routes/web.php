@@ -40,12 +40,14 @@ Route::group(
         // 移除购物车
         Route::delete('carts/{sku}', 'CartsController@destroy')->name('carts.destroy');
 
-        // 订单列表
+        // 订单管理-订单列表
         Route::get('orders', 'OrdersController@index')->name('orders.index');
-        // 创建订单
+        // 订单管理-创建订单
         Route::post('orders', 'OrdersController@store')->name('orders.store');
-        // 订单详情
+        // 订单管理-订单详情
         Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
+        // 订单管理-确认发货
+        Route::post('orders/{order}/received', 'OrdersController@received')->name('orders.received');
 
         // 订单支付 - 支付宝支付
         Route::get('payment/{order}/alipay', 'PaymentController@payByAliPay')->name('payment.alipay');
