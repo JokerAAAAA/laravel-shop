@@ -48,7 +48,10 @@ Route::group(
         Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
         // 订单管理-确认发货
         Route::post('orders/{order}/received', 'OrdersController@received')->name('orders.received');
-
+        // 订单管理-评价商品
+        Route::get('orders/{order}/review', 'OrdersController@review')->name('orders.review.show');
+        // 订单管理-发送评价
+        Route::post('orders/{order}/review', 'OrdersController@sendReview')->name('orders.review.store');
         // 订单支付 - 支付宝支付
         Route::get('payment/{order}/alipay', 'PaymentController@payByAliPay')->name('payment.alipay');
         // 订单支付 - 支付宝支付前端回调页面
