@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 class ApplyRefundRequest extends ReviewRequest
 {
     /**
-     * Get the validation rules that apply to the request.
+     * 获取应用于请求的验证规则
      *
      * @return array
      */
