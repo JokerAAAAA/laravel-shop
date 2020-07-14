@@ -52,6 +52,9 @@ Route::group(
         Route::get('orders/{order}/review', 'OrdersController@review')->name('orders.review.show');
         // 订单管理-发送评价
         Route::post('orders/{order}/review', 'OrdersController@sendReview')->name('orders.review.store');
+        // 订单管理-申请退款
+        Route::post('orders/{order}/apply_refund', 'OrdersController@applyRefund')->name('orders.apply_refund');
+
         // 订单支付 - 支付宝支付
         Route::get('payment/{order}/alipay', 'PaymentController@payByAliPay')->name('payment.alipay');
         // 订单支付 - 支付宝支付前端回调页面
