@@ -71,3 +71,5 @@ Route::get('products/{product}', 'ProductsController@show')->name('products.show
 
 // 订单支付 - 服务器回调
 Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
+// 订单支付 - 退款回调
+Route::post('payment/wechat/refund_notify', 'PaymentController@wechatRefundNotify')->name('payment.wechat.refund_notify');
