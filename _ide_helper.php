@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.17.2 on 2020-07-01 14:50:25.
+ * Generated for Laravel 7.17.2 on 2020-07-16 09:39:15.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -8469,6 +8469,86 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Migrate the delayed jobs that are ready to the regular queue.
+         *
+         * @param string $from
+         * @param string $to
+         * @return array 
+         * @static 
+         */ 
+        public static function migrateExpiredJobs($from, $to)
+        {
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
+                        return $instance->migrateExpiredJobs($from, $to);
+        }
+        
+        /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\RedisJob $job
+         * @return void 
+         * @static 
+         */ 
+        public static function deleteReserved($queue, $job)
+        {
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
+                        $instance->deleteReserved($queue, $job);
+        }
+        
+        /**
+         * Delete a reserved job from the reserved queue and release it.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\RedisJob $job
+         * @param int $delay
+         * @return void 
+         * @static 
+         */ 
+        public static function deleteAndRelease($queue, $job, $delay)
+        {
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
+                        $instance->deleteAndRelease($queue, $job, $delay);
+        }
+        
+        /**
+         * Get the queue or return the default.
+         *
+         * @param string|null $queue
+         * @return string 
+         * @static 
+         */ 
+        public static function getQueue($queue)
+        {
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
+                        return $instance->getQueue($queue);
+        }
+        
+        /**
+         * Get the connection for the queue.
+         *
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */ 
+        public static function getConnection()
+        {
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
+                        return $instance->getConnection();
+        }
+        
+        /**
+         * Get the underlying Redis instance.
+         *
+         * @return \Illuminate\Contracts\Redis\Factory 
+         * @static 
+         */ 
+        public static function getRedis()
+        {
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
+                        return $instance->getRedis();
+        }
+        
+        /**
          * Get the retry delay for an object-based queue handler.
          *
          * @param mixed $job
@@ -8478,7 +8558,7 @@ namespace Illuminate\Support\Facades {
         public static function getJobRetryDelay($job)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
                         return $instance->getJobRetryDelay($job);
         }
         
@@ -8492,7 +8572,7 @@ namespace Illuminate\Support\Facades {
         public static function getJobExpiration($job)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
                         return $instance->getJobExpiration($job);
         }
         
@@ -8506,7 +8586,7 @@ namespace Illuminate\Support\Facades {
         public static function createPayloadUsing($callback)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        \Illuminate\Queue\SyncQueue::createPayloadUsing($callback);
+                        \Illuminate\Queue\RedisQueue::createPayloadUsing($callback);
         }
         
         /**
@@ -8519,7 +8599,7 @@ namespace Illuminate\Support\Facades {
         public static function setContainer($container)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\RedisQueue $instance */
                         $instance->setContainer($container);
         }
          
@@ -16036,6 +16116,156 @@ namespace Facade\Ignition\Facades {
  
 }
 
+namespace Yansongda\LaravelPay\Facades { 
+
+    /**
+     * 
+     *
+     */ 
+    class Pay {
+        
+        /**
+         * Pay an order.
+         *
+         * @author yansongda <me@yansongda.cn>
+         * @param string $gateway
+         * @param array $params
+         * @throws InvalidGatewayException
+         * @return \Response|\Yansongda\Pay\Gateways\Collection 
+         * @static 
+         */ 
+        public static function pay($gateway, $params = [])
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->pay($gateway, $params);
+        }
+        
+        /**
+         * Verify sign.
+         *
+         * @author yansongda <me@yansongda.cn>
+         * @param array|null $data
+         * @throws InvalidSignException
+         * @throws InvalidConfigException
+         * @static 
+         */ 
+        public static function verify($data = null, $refund = false)
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->verify($data, $refund);
+        }
+        
+        /**
+         * Query an order.
+         *
+         * @author yansongda <me@yansongda.cn>
+         * @param string|array $order
+         * @throws GatewayException
+         * @throws InvalidConfigException
+         * @throws InvalidSignException
+         * @static 
+         */ 
+        public static function find($order, $type = 'wap')
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->find($order, $type);
+        }
+        
+        /**
+         * Refund an order.
+         *
+         * @author yansongda <me@yansongda.cn>
+         * @throws GatewayException
+         * @throws InvalidConfigException
+         * @throws InvalidSignException
+         * @static 
+         */ 
+        public static function refund($order)
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->refund($order);
+        }
+        
+        /**
+         * Cancel an order.
+         *
+         * @author yansongda <me@yansongda.cn>
+         * @param array|string $order
+         * @throws GatewayException
+         * @throws InvalidConfigException
+         * @throws InvalidSignException
+         * @static 
+         */ 
+        public static function cancel($order)
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->cancel($order);
+        }
+        
+        /**
+         * Close an order.
+         *
+         * @param string|array $order
+         * @author yansongda <me@yansongda.cn>
+         * @throws GatewayException
+         * @throws InvalidConfigException
+         * @throws InvalidSignException
+         * @static 
+         */ 
+        public static function close($order)
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->close($order);
+        }
+        
+        /**
+         * Download bill.
+         *
+         * @author yansongda <me@yansongda.cn>
+         * @param string|array $bill
+         * @throws GatewayException
+         * @throws InvalidConfigException
+         * @throws InvalidSignException
+         * @static 
+         */ 
+        public static function download($bill)
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->download($bill);
+        }
+        
+        /**
+         * Reply success to alipay.
+         *
+         * @author yansongda <me@yansongda.cn>
+         * @static 
+         */ 
+        public static function success()
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->success();
+        }
+        
+        /**
+         * extend.
+         *
+         * @author yansongda <me@yansongda.cn>
+         * @throws GatewayException
+         * @throws InvalidConfigException
+         * @throws InvalidSignException
+         * @throws InvalidArgumentException
+         * @static 
+         */ 
+        public static function extend($method, $function, $now = true)
+        {
+                        /** @var \Yansongda\Pay\Gateways\Alipay $instance */
+                        return $instance->extend($method, $function, $now);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -18988,6 +19218,8 @@ namespace  {
     class Admin extends \Encore\Admin\Facades\Admin {}
 
     class Flare extends \Facade\Ignition\Facades\Flare {}
+
+    class Pay extends \Yansongda\LaravelPay\Facades\Pay {}
  
 }
 
