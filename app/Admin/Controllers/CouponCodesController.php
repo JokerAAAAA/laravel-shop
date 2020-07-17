@@ -61,19 +61,19 @@ class CouponCodesController extends AdminController
     {
         $show = new Show(CouponCode::findOrFail($id));
 
-        $show->field('id', __('Id'));
-        $show->field('name', __('Name'));
-        $show->field('code', __('Code'));
-        $show->field('type', __('Type'));
-        $show->field('value', __('Value'));
-        $show->field('total', __('Total'));
-        $show->field('used', __('Used'));
-        $show->field('min_amount', __('Min amount'));
-        $show->field('not_before', __('Not before'));
-        $show->field('not_after', __('Not after'));
-        $show->field('enabled', __('Enabled'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
+        $show->field('id', __('编号'));
+        $show->field('name', __('名称'));
+        $show->field('code', __('优惠码'));
+        $show->field('type', __('类型'))->using(['fixed' => '固定金额', 'percent' => '比例']);
+        $show->field('value', __('折扣'));
+        $show->field('total', __('总量'));
+        $show->field('used', __('用量'));
+        $show->field('min_amount', __('最低金额'));
+        $show->field('not_before', __('开始时间'));
+        $show->field('not_after', __('结束时间'));
+        $show->field('enabled', __('启用'));
+        $show->field('created_at', __('创建时间'));
+        $show->field('updated_at', __('修改时间'));
 
         return $show;
     }
@@ -87,16 +87,43 @@ class CouponCodesController extends AdminController
     {
         $form = new Form(new CouponCode());
 
-        $form->text('name', __('Name'));
-        $form->text('code', __('Code'));
-        $form->text('type', __('Type'));
-        $form->decimal('value', __('Value'));
-        $form->number('total', __('Total'));
-        $form->number('used', __('Used'));
-        $form->decimal('min_amount', __('Min amount'));
-        $form->datetime('not_before', __('Not before'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('not_after', __('Not after'))->default(date('Y-m-d H:i:s'));
-        $form->switch('enabled', __('Enabled'));
+        $form->display('id', __('编号'));
+        $form->text('name', __('名称'))->rules('required');
+        $form->text('code', __('优惠码'))->rules(
+            function ($form) {
+                // 如果 $form->model()->id 不为空，代表是编辑操作
+                if ($id = $form->model()->id) {
+                    return 'nullable|unique:coupon_codes,code,'.$id.',id';
+                } else {
+                    return 'nullable|unique:coupon_codes';
+                }
+            }
+        );
+        $form->radio('type', __('类型'))->options(CouponCode::$typeMap)->rules('required')->default(CouponCode::TYPE_FIXED);
+        $form->text('value', __('折扣'))->rules(
+            function ($form) {
+                if (request()->input('type') === CouponCode::TYPE_PERCENT) {
+                    // 如果选择了百分比折扣类型，那么折扣范围只能是 1~99
+                    return 'required|numeric|between:1,99';
+                } else {
+                    // 否则只要大于 0.01 即可
+                    return 'required|numeric|min:0.01';
+                }
+            }
+        );
+        $form->number('total', __('总量'))->rules('required|numeric|min:0');
+        $form->text('min_amount', __('最低金额'))->rules('required|numeric|min:0');
+        $form->datetime('not_before', __('开始时间'));
+        $form->datetime('not_after', __('结束时间'));
+        $form->radio('enabled', __('启用'))->options(['1' => '是', '0' => '否']);
+
+        $form->saving(
+            function (Form $form) {
+                if (!$form->code) {
+                    $form->code = CouponCode::findAvailableCode();
+                }
+            }
+        );
 
         return $form;
     }
