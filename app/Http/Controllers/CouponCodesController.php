@@ -13,9 +13,11 @@ class CouponCodesController extends Controller
      * 获取优惠券
      *
      * @param $code
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Illuminate\Http\JsonResponse|object|null
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     * @throws CouponCodeUnavailableException
      */
-    public function show($code)
+    public function show($code, Request $request)
     {
         // 判断优惠券是否存在
         if (!$record = CouponCode::query()->where('code', $code)->first()) {
@@ -23,7 +25,7 @@ class CouponCodesController extends Controller
         }
 
         // 校验优惠券
-        $record->checkAvailable();
+        $record->checkAvailable($request->user());
 
         return $record;
     }
