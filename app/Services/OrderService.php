@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Exceptions\CouponCodeUnavailableException;
 use App\Exceptions\InvalidRequestException;
 use App\Jobs\CloseOrder;
+use App\Models\CouponCode;
 use App\Models\Order;
 use App\Models\ProductSku;
 use App\Models\User;
@@ -11,11 +13,28 @@ use App\Models\UserAddress;
 
 class OrderService
 {
-    public function store(User $user, UserAddress $address, $remark, $items)
+    /**
+     * 创建订单
+     *
+     * @param User $user
+     * @param UserAddress $address
+     * @param $remark
+     * @param $items
+     * @param CouponCode $coupon 添加一个 $coupon 的参数，可以为 null
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function store(User $user, UserAddress $address, $remark, $items, CouponCode $coupon = null)
     {
-        // 开启一个数据库事务
+        // 如果传入了优惠券，则先检查是否可用
+        if ($coupon) {
+            // 但此时我们还要计算出订单总金额，因此先不校验
+            $coupon->checkAvailable();
+        }
+
+        // 开启一个数据库事务，注意这里把 $coupon 也放到了 use 中
         $order = \DB::transaction(
-            function () use ($user, $address, $remark, $items) {
+            function () use ($user, $address, $remark, $items, $coupon) {
                 // 更新此地址的最后使用时间
                 $order = new Order(
                     [
@@ -52,6 +71,18 @@ class OrderService
                     $totalAmount += $sku->price * $data['amount'];
                     if ($sku->decreaseStock($data['amount']) <= 0) {
                         throw new InvalidRequestException('该商品库存不足');
+                    }
+                }
+                if ($coupon) {
+                    // 总金额已经计算出来了，检查是否符合优惠券规则
+                    $coupon->checkAvailable($totalAmount);
+                    // 把订单金额修改为优惠后的金额
+                    $totalAmount = $coupon->getAdjustedPrice($totalAmount);
+                    // 将订单与优惠券关联
+                    $order->couponCode()->associate($coupon);
+                    // 增加优惠券的用量，需判断返回值
+                    if ($coupon->changeUsed() <= 0) {
+                        throw new CouponCodeUnavailableException('该优惠券已被兑完');
                     }
                 }
                 // 更新订单总金额
