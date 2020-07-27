@@ -26,11 +26,14 @@ class EventServiceProvider extends ServiceProvider
 
         // 支付成功
         OrderPaid::class => [
+            // 修改商品数
             UpdateProductSoldCount::class,
+            // 订单支付成功发邮件
             SendOrderPaidMail::class,
         ],
         // 评价商品
         OrderReviewed:: class => [
+            // 修改商品评价数
             UpdateProductRating::class,
         ],
     ];
