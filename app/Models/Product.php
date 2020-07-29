@@ -43,6 +43,7 @@ class Product extends Model
         if (Str::startsWith($this->attributes['image'], ['http://', 'https://'])) {
             return $this->attributes['image'];
         }
+
         return \Storage::disk('public')->url($this->attributes['image']);
     }
 
@@ -54,5 +55,15 @@ class Product extends Model
     public function skus()
     {
         return $this->hasMany(ProductSku::class);
+    }
+
+    /**
+     * 商品类目
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
