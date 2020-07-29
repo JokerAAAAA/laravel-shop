@@ -7,7 +7,7 @@
 
 ## 功能
 
-![_big](https://github.com/buqiu/laravel-shop/blob/master/doc/功能.png)
+![_big](https://github.com/buqiu/laravel-shop/blob/master/doc/%E6%B6%82%E5%91%80%E5%95%86%E5%9F%8E%E5%8A%9F%E8%83%BD%E5%9B%BE01.png)
 
 
 ## 项目功能点
