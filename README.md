@@ -53,7 +53,7 @@
 
 1). 运行以下命令编辑 Homestead.yaml 文件：
 
-```shell
+```shell script
 homestead edit
 ```
 
@@ -76,7 +76,7 @@ databases:
 
 修改完成后保存，然后执行以下命令应用配置信息修改：
 
-```shell
+```shell script
 homestead provision
 ```
 
@@ -84,7 +84,9 @@ homestead provision
 
 #### 3. 安装扩展包依赖
 
-    composer install
+```shell script
+composer install
+```
 
 #### 4. 生成配置文件
 
@@ -94,10 +96,33 @@ cp .env.example .env
 
 你可以根据情况修改 `.env` 文件里的内容，如数据库连接、缓存、邮件设置等。
 
+```
+APP_NAME="Laravel Shop"
+.
+.
+.
+APP_URL=http://shop.test
+.
+.
+.
+DB_DATABASE=laravel-shop
+DB_USERNAME=homestead
+DB_PASSWORD=secret
+.
+.
+.
+QUEUE_CONNECTION=redis
+.
+.
+.
+MAIL_DRIVER=smtp
+MAIL_HOST=127.0.0.1
+MAIL_PORT=1025
+```
 
 #### 5. 生成秘钥
 
-```shell
+```shell script
 php artisan key:generate
 ```
 
@@ -105,14 +130,35 @@ php artisan key:generate
 
 在 Homestead 的网站根目录下运行以下命令
 
-```shell
+```shell script
 $ php artisan migrate --seed
 ```
 
 初始的用户角色权限已使用数据迁移生成。
 
 
-#### 7. 配置 hosts 文件
+#### 7. 创建软链
+
+接下来我们需要在 `public` 目录下创建一个连到 `storage/app/public` 目录下的软链接：
+
+```shell script
+php artisan storage:link
+```
+
+#### 8. 初始化数据库
+
+执行数据库迁移
+
+```shell script
+php artisan migrate
+```
+
+导入管理后台数据
+```shell script
+mysql laravel-shop < database/admin.sql
+```
+
+#### 9. 配置 hosts 文件
 
     echo "192.168.10.10   shop.test" | sudo tee -a /etc/hosts
 
