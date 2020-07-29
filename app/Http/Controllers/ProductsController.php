@@ -6,6 +6,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -14,9 +15,10 @@ class ProductsController extends Controller
      * 商品列表
      *
      * @param Request $request
+     * @param CategoryService $categoryService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request, CategoryService $categoryService)
     {
         // 创建一个查询构造器
         $builder = Product::query()->where('on_sale', true);
@@ -82,6 +84,7 @@ class ProductsController extends Controller
                 ],
                 // 等价于 isset($category) ?? $category : null
                 'category' => $category ?? null,
+                'categoryTree' => $categoryService->getCategoryTree(),
             ]
         );
     }
