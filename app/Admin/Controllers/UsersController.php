@@ -67,14 +67,12 @@ class UsersController extends AdminController
     {
         $show = new Show(User::findOrFail($id));
 
-        $show->field('id', __('Id'));
-        $show->field('name', __('Name'));
-        $show->field('email', __('Email'));
-        $show->field('email_verified_at', __('Email verified at'));
-        $show->field('password', __('Password'));
-        $show->field('remember_token', __('Remember token'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
+        $show->field('id', __('编号'));
+        $show->field('name', __('用户名'));
+        $show->field('email', __('邮箱'));
+        $show->field('email_verified_at', __('已验证邮箱'));
+        $show->field('created_at', __('注册时间'));
+        $show->field('updated_at', __('修改时间'));
 
         return $show;
     }
@@ -88,11 +86,11 @@ class UsersController extends AdminController
     {
         $form = new Form(new User());
 
-        $form->text('name', __('Name'));
-        $form->email('email', __('Email'));
-        $form->datetime('email_verified_at', __('Email verified at'))->default(date('Y-m-d H:i:s'));
-        $form->password('password', __('Password'));
-        $form->text('remember_token', __('Remember token'));
+        $form->text('name', __('用户名'));
+        $form->email('email', __('邮箱'));
+        $form->datetime('email_verified_at', __('已验证邮箱'))->default(date('Y-m-d H:i:s'));
+        $form->password('password', __('密码'));
+        $form->text('remember_token', __('记住我'));
 
         return $form;
     }
