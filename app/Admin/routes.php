@@ -32,5 +32,7 @@ Route::group(
         $router->resource('categories', 'CategoriesController');
         // 下拉框搜索接口
         $router->get('api/categories', 'CategoriesController@apiIndex');
+        // 众筹商品
+        $router->resource('crowdfunding_products', 'CrowdfundingProductsController');
     }
 );
