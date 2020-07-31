@@ -17,6 +17,9 @@ class Order extends Model
     const SHIP_STATUS_DELIVERED = 'delivered';  // 已发货
     const SHIP_STATUS_RECEIVED = 'received';    // 已收货
 
+    const TYPE_NORMAL = 'normal';   // 普通商品订单
+    const TYPE_CROWDFUNDING = 'crowdfunding';   // 众筹商品订单
+
     public static $refundStatusMap = [
         self::REFUND_STATUS_PENDING => '未退款',
         self::REFUND_STATUS_APPLIED => '已申请退款',
@@ -31,12 +34,18 @@ class Order extends Model
         self::SHIP_STATUS_RECEIVED => '已收货',
     ];
 
+    public static $typeMap = [
+        self::TYPE_NORMAL => '普通商品订单',
+        self::TYPE_CROWDFUNDING => '众筹商品订单',
+    ];
+
     /**
      * 可以被批量赋值的属性
      *
      * @var array
      */
     protected $fillable = [
+        'type',
         'no',
         'address',
         'total_amount',

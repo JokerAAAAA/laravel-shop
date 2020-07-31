@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\OrderPaid;
 use App\Events\OrderReviewed;
 use App\Listeners\SendOrderPaidMail;
+use App\Listeners\UpdateCrowdfundingProductProgress;
 use App\Listeners\UpdateProductRating;
 use App\Listeners\UpdateProductSoldCount;
 use Illuminate\Auth\Events\Registered;
@@ -30,6 +31,8 @@ class EventServiceProvider extends ServiceProvider
             UpdateProductSoldCount::class,
             // 订单支付成功发邮件
             SendOrderPaidMail::class,
+            // 更新众筹进度
+            UpdateCrowdfundingProductProgress::class,
         ],
         // 评价商品
         OrderReviewed:: class => [
