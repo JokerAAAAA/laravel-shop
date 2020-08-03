@@ -43,7 +43,7 @@ class FinishCrowdfunding extends Command
     public function handle()
     {
         CrowdfundingProduct::query()
-            // 众筹结束时候大于当前时间
+            // 众筹结束时间早于当前时间
             ->where('end_at', '<=', Carbon::now())
             // 众筹状态为众筹中
             ->where('status', CrowdfundingProduct::STATUS_FUNDING)
@@ -60,8 +60,6 @@ class FinishCrowdfunding extends Command
                     }
                 }
             );
-
-        return 0;
     }
 
     /**
