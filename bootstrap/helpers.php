@@ -44,7 +44,6 @@ if (!function_exists('create_random_str')) {
     }
 }
 
-
 if (!function_exists('ngrok_url')) {
 
     /**
@@ -63,5 +62,20 @@ if (!function_exists('ngrok_url')) {
         }
 
         return \route($routeName, $parameters);
+    }
+}
+
+if (!function_exists('big_number')) {
+
+    /**
+     * 默认的精度为小数点后两位
+     *
+     * @param $number
+     * @param int $scale
+     * @return \Moontoast\Math\BigNumber
+     */
+    function big_number($number, $scale = 2)
+    {
+        return new \Moontoast\Math\BigNumber($number, $scale);
     }
 }
