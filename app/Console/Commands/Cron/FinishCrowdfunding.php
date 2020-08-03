@@ -85,9 +85,11 @@ class FinishCrowdfunding extends Command
     protected function crowdfundingFailed(CrowdfundingProduct $crowdfunding)
     {
         // 将众筹状态改为众筹失败
+        $extra['refund_reason'] = '众筹失败';
         $crowdfunding->update(
             [
                 'status' => CrowdfundingProduct::STATUS_FAIL,
+                'extra' => $extra,
             ]
         );
         dispatch(new RefundCrowdfundingOrders($crowdfunding));
