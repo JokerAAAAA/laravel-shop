@@ -5,6 +5,7 @@ namespace App\Listeners;
 use DB;
 use App\Events\OrderReviewed;
 use App\Models\OrderItem;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 /**
@@ -12,7 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
  * Class UpdateProductRating
  * @package App\Listeners
  */
-class UpdateProductRating
+class UpdateProductRating implements ShouldQueue
 {
     /**
      * Create the event listener.

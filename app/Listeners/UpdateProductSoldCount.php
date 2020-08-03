@@ -13,7 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
  * Class UpdateProductSoldCount
  * @package App\Listeners
  */
-class UpdateProductSoldCount
+class UpdateProductSoldCount implements ShouldQueue
 {
     /**
      * Create the event listener.

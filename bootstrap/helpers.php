@@ -43,3 +43,25 @@ if (!function_exists('create_random_str')) {
         return $str;
     }
 }
+
+
+if (!function_exists('ngrok_url')) {
+
+    /**
+     * NGROK 地址
+     *
+     * @param $routeName
+     * @param array $parameters
+     * @return string
+     */
+    function ngrok_url($routeName, $parameters = [])
+    {
+        // 开发环境，并且配置了 NGROK_URL
+        if (app()->environment('local') && $url = config('app.ngrok_url')) {
+            // route() 函数第桑参数代表是否绝对路径
+            return $url.\route($routeName, $parameters, false);
+        }
+
+        return \route($routeName, $parameters);
+    }
+}

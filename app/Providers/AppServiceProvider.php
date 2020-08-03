@@ -26,9 +26,9 @@ class AppServiceProvider extends ServiceProvider
             function () {
                 $config = config('pay.alipay');
                 // 支付宝异步通知地址
-                $config['notify_url'] = config('pay.alipay.notify_url', route('payment.alipay.notify'));
+                $config['notify_url'] = ngrok_url('payment.alipay.notify');
                 // 支付成功后同步通知地址
-                $config['return_url'] = route('payment.alipay.return');
+                $config['return_url'] = ngrok_url('payment.alipay.return');
                 // 判断当前项目运行环境是否为线上环境
                 if (app()->environment() !== 'production') {
                     $config['mode'] = 'dev';
@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
             function () {
                 $config = config('pay.wechat');
                 // 微信支付异步通知地址
-                $config['notify_url'] = route('payment.wechat.notify');
+                $config['notify_url'] = ngrok_url('payment.wechat.notify');
                 // 判断当前项目运行环境是否为线上环境
                 if (app()->environment() !== 'production') {
                     $config['log']['level'] = Logger::DEBUG;
