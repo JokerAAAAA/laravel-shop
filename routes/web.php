@@ -73,6 +73,8 @@ Route::group(
 
         // 分期付款-列表
         Route::get('installments', 'InstallmentsController@index')->name('installments.index');
+        // 分期付款-详情
+        Route::get('installments/{installment}', 'InstallmentsController@show')->name('installments.show');
     }
 );
 

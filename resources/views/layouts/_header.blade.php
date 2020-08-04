@@ -60,8 +60,8 @@
                             </form>
                         </div>
                     </li>
-            @endguest
-            <!-- 登录注册链接结束 -->
+                @endguest
+                <!-- 登录注册链接结束 -->
             </ul>
         </div>
     </div>
