@@ -65,6 +65,8 @@ Route::group(
         Route::get('payment/{order}/wechat', 'PaymentController@payByWechatPay')->name('payment.wechat');
         // 订单支付 - 微信支付前端回调页面
         Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
+        // 订单支付 - 分期付款
+        Route::post('payment/{order}/installment', 'PaymentController@payByInstallment')->name('payment.installment');
 
         // 优惠券-获取优惠券;
         Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');

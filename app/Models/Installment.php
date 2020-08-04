@@ -81,7 +81,7 @@ class Installment extends Model
      */
     public function items()
     {
-        return $this->hasMany(Installment::class);
+        return $this->hasMany(InstallmentItem::class);
     }
 
     /**
