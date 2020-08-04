@@ -70,6 +70,9 @@ Route::group(
 
         // 优惠券-获取优惠券;
         Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');
+
+        // 分期付款-列表
+        Route::get('installments', 'InstallmentsController@index')->name('installments.index');
     }
 );
 
