@@ -161,7 +161,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * 退款回调
+     * 微信退款回调
      *
      * @param Request $request
      * @return string

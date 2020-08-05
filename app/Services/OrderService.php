@@ -6,6 +6,7 @@ use App\Exceptions\CouponCodeUnavailableException;
 use App\Exceptions\InternalException;
 use App\Exceptions\InvalidRequestException;
 use App\Jobs\CloseOrder;
+use App\Jobs\RefundInstallmentOrder;
 use App\Models\CouponCode;
 use App\Models\Order;
 use App\Models\ProductSku;
@@ -224,6 +225,16 @@ class OrderService
                         ]
                     );
                 }
+                break;
+            case 'installment':
+                $order->update(
+                    [
+                        'refund_no' => Order::getAvailableRefundNo(),   // 生成退款订单号
+                        'refund_status' => Order::REFUND_STATUS_PROCESSING, // 将退款状态改为退款中
+                    ]
+                );
+                // 触发退款异步任务
+                dispatch(new RefundInstallmentOrder($order));
                 break;
             default:
                 // 原则上不可能出现，这里只是为了代码健壮性
