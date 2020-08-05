@@ -79,6 +79,10 @@ Route::group(
         Route::get('installments/{installment}/alipay', 'InstallmentsController@payByAlipay')->name('installments.alipay');
         // 分期付款-支付宝支付前端回调页面
         Route::get('installments/alipay/return', 'InstallmentsController@alipayReturn')->name('installments.alipay.return');
+        // 分期付款-微信支付
+        Route::get('installments/{installment}/wechat', 'InstallmentsController@payByWechatPay')->name('installments.wechat');
+        // 分期付款-微信支付前端回调页面
+        Route::post('installments/wechat/notify', 'InstallmentsController@wechatNotify')->name('installments.wechat.notify');
     }
 );
 

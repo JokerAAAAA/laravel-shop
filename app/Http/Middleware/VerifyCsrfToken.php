@@ -20,5 +20,7 @@ class VerifyCsrfToken extends Middleware
         'payment/wechat/refund_notify',
         // 分期付款-支付宝服务器回调
         'installments/alipay/notify',
+        // 分期付款-微信服务器回调
+        'installments/wechat/notify',
     ];
 }
