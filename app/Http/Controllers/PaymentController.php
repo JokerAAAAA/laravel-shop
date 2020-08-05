@@ -36,7 +36,7 @@ class PaymentController extends Controller
             [
                 'out_trade_no' => $order->no,       // 订单编号，需保证在商户端不重复
                 'total_amount' => $order->total_amount,     // 订单金额，单位元，支持小数后两位
-                'subject' => '支付涂呀商城的订单：'.$order->no,     // 订单标题
+                'subject' => '支付'.config('app.name').'的订单：'.$order->no,     // 订单标题
             ]
         );
     }
@@ -116,7 +116,7 @@ class PaymentController extends Controller
             [
                 'out_trade_no' => $order->no, // 商户订单流水号，与支付宝 out_trade_no 一样
                 'total_fee' => $order->total_amount * 100, // 与支付宝不同，微信支付的金额单位是分。
-                'body' => '支付涂呀商城的订单'.$order->no, // 订单描述
+                'body' => '支付'.config('app.name').'的订单：'.$order->no, // 订单描述
             ]
         );
         // 把要转换的字符串作为 QrCode 的构造函数参数

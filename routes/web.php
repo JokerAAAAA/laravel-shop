@@ -57,15 +57,15 @@ Route::group(
         // 订单管理-众筹商品创建订单
         Route::post('crowdfunding_orders', 'OrdersController@crowdfunding')->name('crowdfunding_orders.store');
 
-        // 订单支付 - 支付宝支付
+        // 订单支付-支付宝支付
         Route::get('payment/{order}/alipay', 'PaymentController@payByAliPay')->name('payment.alipay');
-        // 订单支付 - 支付宝支付前端回调页面
+        // 订单支付-支付宝支付前端回调页面
         Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
-        // 订单支付 - 微信支付
+        // 订单支付-微信支付
         Route::get('payment/{order}/wechat', 'PaymentController@payByWechatPay')->name('payment.wechat');
-        // 订单支付 - 微信支付前端回调页面
+        // 订单支付-微信支付前端回调页面
         Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
-        // 订单支付 - 分期付款
+        // 订单支付-分期付款
         Route::post('payment/{order}/installment', 'PaymentController@payByInstallment')->name('payment.installment');
 
         // 优惠券-获取优惠券;
@@ -75,13 +75,20 @@ Route::group(
         Route::get('installments', 'InstallmentsController@index')->name('installments.index');
         // 分期付款-详情
         Route::get('installments/{installment}', 'InstallmentsController@show')->name('installments.show');
+        // 分期付款-支付宝支付
+        Route::get('installments/{installment}/alipay', 'InstallmentsController@payByAlipay')->name('installments.alipay');
+        // 分期付款-支付宝支付前端回调页面
+        Route::get('installments/alipay/return', 'InstallmentsController@alipayReturn')->name('installments.alipay.return');
     }
 );
 
 // 商品详情
 Route::get('products/{product}', 'ProductsController@show')->name('products.show');
 
-// 订单支付 - 服务器回调
+// 订单支付-服务器回调
 Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
-// 订单支付 - 退款回调
+// 订单支付-微信退款回调
 Route::post('payment/wechat/refund_notify', 'PaymentController@wechatRefundNotify')->name('payment.wechat.refund_notify');
+
+// 分期付款-服务器回调
+Route::post('installments/alipay/notify', 'InstallmentsController@alipayNotify')->name('installments.alipay.notify');

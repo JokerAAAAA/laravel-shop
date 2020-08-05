@@ -12,8 +12,13 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
+        // 订单支付-支付宝服务器回调
         'payment/alipay/notify',
+        // 订单支付-微信服务器回调
         'payment/wechat/notify',
-        'payment/wechat/refund_notify'
+        // 订单支付-微信退款回调
+        'payment/wechat/refund_notify',
+        // 分期付款-支付宝服务器回调
+        'installments/alipay/notify',
     ];
 }

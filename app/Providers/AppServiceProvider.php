@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
                 // 支付宝异步通知地址
                 $config['notify_url'] = ngrok_url('payment.alipay.notify');
                 // 支付成功后同步通知地址
-                $config['return_url'] = ngrok_url('payment.alipay.return');
+                $config['return_url'] = route('payment.alipay.return');
                 // 判断当前项目运行环境是否为线上环境
                 if (app()->environment() !== 'production') {
                     $config['mode'] = 'dev';
