@@ -58,9 +58,11 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            'options' => extension_loaded('pdo_mysql') ? array_filter(
+                [
+                    PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                ]
+            ) : [],
         ],
 
         'pgsql' => [
@@ -142,6 +144,26 @@ return [
             'database' => env('REDIS_CACHE_DB', '1'),
         ],
 
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Elasticsearch
+    |--------------------------------------------------------------------------
+    |
+    | Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，
+    | 并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，是 Lucene 的封装，
+    | 提供了 REST API 的操作接口，开箱即用。现在是使用最广的开源搜索引擎之一，
+    | Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch
+    | 来构建他们的搜索引擎。
+    |
+    */
+    'elasticsearch' => [
+        // Elasticsearch 支持多台服务器负载均衡，因此这里是一个数组
+        'host' => explode(',', env('ES_HOSTS')),
+        'port' => env('ES_PORT', 9200),
+        'username' => env('ES_USERNAME', ''),
+        'password' => env('ES_PASSWORD', ''),
     ],
 
 ];

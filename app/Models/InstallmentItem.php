@@ -62,12 +62,12 @@ class InstallmentItem extends Model
      */
     public function getTotalAttribute()
     {
-        $total = big_number($this->base)->add($this->fee);
+        $total = big_number($this->base)->plus($this->fee);
         if (!is_null($this->fine)) {
-            $total->add($this->fine);
+            $total->plus($this->fine);
         }
 
-        return $total->getValue();
+        return $total;
     }
 
     /**

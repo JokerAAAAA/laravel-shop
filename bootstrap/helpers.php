@@ -72,10 +72,10 @@ if (!function_exists('big_number')) {
      *
      * @param $number
      * @param int $scale
-     * @return \Moontoast\Math\BigNumber
+     * @return \Brick\Math\BigDecimal
      */
     function big_number($number, $scale = 2)
     {
-        return new \Moontoast\Math\BigNumber($number, $scale);
+        return Brick\Math\BigRational::of($number)->toScale(2);
     }
 }
