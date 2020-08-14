@@ -43,12 +43,12 @@ class Category extends Model
                     // 将层级设为 0
                     $category->level = 0;
                     // 将 path 设为 _
-                    $category->path = '_';
+                    $category->path = '-';
                 } else {
                     // 将层级设为父类目的层级 + 1
                     $category->level = $category->parent->level + 1;
                     // 将 path 值设为父类目的 path 追加父类目 ID 以及最后跟上一个 - 分隔符
-                    $category->path = $category->parent->path.$category->parent_id.'_';
+                    $category->path = $category->parent->path.$category->parent_id.'-';
                 }
             }
         );
@@ -91,10 +91,10 @@ class Category extends Model
      */
     public function getPathIdsAttribute()
     {
-        // trim($str, '_') 将字符串两端的 - 符号去除
+        // trim($str, '-') 将字符串两端的 - 符号去除
         // explode() 将字符串以 - 为分隔切割为数组
         // 最后 array_filter 将数组中的空值移除
-        return array_filter(explode('_', trim($this->path, '_')));
+        return array_filter(explode('-', trim($this->path, '-')));
     }
 
     /**

@@ -64,19 +64,6 @@ class AppServiceProvider extends ServiceProvider
             'es',
             function () {
                 // 从配置文件读取 Elasticsearch 服务器列表
-                $hosts = [
-                    [
-                        'host' => config('database.elasticsearch.host'),
-                        'port' => config('database.elasticsearch.port'),
-                        'scheme' => 'https',
-                        'path' => '/elastic',
-                        'user' => config('database.elasticsearch.username'),
-                        'pass' => config('database.elasticsearch.password'),
-                    ],
-                    [
-                        'host' => config('database.elasticsearch.host'),    // 仅主机是必需的
-                    ],
-                ];
                 $builder = ESClientBuilder::create()->setHosts(config('database.elasticsearch.host'));
                 // 如果是开发环境
                 if (app()->environment() === 'local') {

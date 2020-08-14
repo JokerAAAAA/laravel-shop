@@ -62,13 +62,12 @@ class CalculateInstallmentFine extends Command
                         // 通过 Carbon 对象的 diffInDays 直接得到逾期天数
                         $overdueDays = Carbon::now()->diffInDays($item->due_date);
                         // 本金与手续费之和
-                        $base = big_number($item->base)->add($item->fee)->getValue();
+                        $base = big_number($item->base)->plus($item->fee);
                         // 计算逾期费
                         $fine = big_number($base)
-                            ->multiply($overdueDays)
-                            ->multiply($item->installment->fine_rate)
-                            ->divide(100)
-                            ->getValue();
+                            ->multipliedBy($overdueDays)
+                            ->multipliedBy($item->installment->fine_rate)
+                            ->dividedBy(100);
                         // 避免逾期费高于本金与手续费之和，使用 compareTo 方法来判断
                         // 如果 $fine 大于 $base，则 compareTo 会返回 1，等于返回 0，小于返回 -1
                         $fine = big_number($fine)->compareTo($base) === 1 ? $base : $fine;

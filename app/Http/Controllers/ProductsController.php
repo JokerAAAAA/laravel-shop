@@ -63,7 +63,7 @@ class ProductsController extends Controller
                 // 如果是一个父类目，则使用 category_path 来筛选
 
                 $params['body']['query']['bool']['filter'][] = [
-                    'prefix' => ['category_path' => $category->path.$category->id.'_'],
+                    'prefix' => ['category_path' => $category->path.$category->id.'-'],
                 ];
             } else {
                 // 否则直接通过 category_id 筛选
@@ -110,7 +110,7 @@ class ProductsController extends Controller
 
         // 返回一个 LengthAwarePaginator 对象
         $pager = new LengthAwarePaginator(
-            $products, $result['hits']['total'], $perPage, $page, [
+            $products, $result['hits']['total']['value'], $perPage, $page, [
                 'path' => route('products.index', false), // 手动构建分页的 url
             ]
         );
