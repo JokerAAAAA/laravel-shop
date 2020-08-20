@@ -34,5 +34,7 @@ Route::group(
         $router->get('api/categories', 'CategoriesController@apiIndex');
         // 众筹商品
         $router->resource('crowdfunding_products', 'CrowdfundingProductsController');
+        // 秒杀商品
+        $router->resource('seckill_products', 'SeckillProductsController');
     }
 );
