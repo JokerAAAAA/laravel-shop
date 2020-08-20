@@ -56,6 +56,8 @@ Route::group(
         Route::post('orders/{order}/apply_refund', 'OrdersController@applyRefund')->name('orders.apply_refund');
         // 订单管理-众筹商品创建订单
         Route::post('crowdfunding_orders', 'OrdersController@crowdfunding')->name('crowdfunding_orders.store');
+        // 订单管理-秒杀商品创建订单
+        Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store');
 
         // 订单支付-支付宝支付
         Route::get('payment/{order}/alipay', 'PaymentController@payByAliPay')->name('payment.alipay');
