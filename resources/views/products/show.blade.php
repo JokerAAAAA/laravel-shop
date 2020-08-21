@@ -12,8 +12,8 @@
                         </div>
                         <div class="col-7">
                             <div class="title">{{ $product->long_title ?: $product->title }}</div>
-                            @if ($product->type === \App\Models\Product::TYPE_CROWDFUNDING)
-                                <!--众筹商品模块开始-->
+                        @if ($product->type === \App\Models\Product::TYPE_CROWDFUNDING)
+                            <!--众筹商品模块开始-->
                                 <div class="crowdfunding-info">
                                     <div class="have-text">已筹到</div>
                                     <div class="total-amount"><span class="symbol">￥</span>{{ $product->crowdfunding->total_amount }}</div>
@@ -44,8 +44,8 @@
                                     @endif
                                 </div>
                                 <!--众筹商品模块结束-->
-                            @else
-                                <!--普通商品模块开始-->
+                        @else
+                            <!--普通商品模块开始-->
                                 <div class="price"><label>价格</label><em>￥</em><span>{{ $product->price }}</span></div>
                                 <div class="sales_and_reviews">
                                     <div class="sold_count">累计销量 <span class="count">{{ $product->sold_count }}</span></div>
@@ -76,7 +76,7 @@
                                 @else
                                     <button class="btn btn-success btn-favor">❤ 收藏</button>
                                 @endif
-                                <!--众筹商品下单按钮开始-->
+                            <!--众筹商品下单按钮开始-->
                                 @if ($product->type === \App\Models\Product::TYPE_CROWDFUNDING)
                                     @if (Auth::check())
                                         @if ($product->crowdfunding->status === \App\Models\CrowdfundingProduct::STATUS_FUNDING)
@@ -90,7 +90,7 @@
                                         <a class="btn btn-primary" href="{{ route('login') }}">请先登录</a>
                                     @endif
                                 <!--众筹商品下单按钮结束-->
-                                <!--秒杀商品下单按钮开始-->
+                                    <!--秒杀商品下单按钮开始-->
                                 @elseif($product->type === \App\Models\Product::TYPE_SECKILL)
                                     @if(Auth::check())
                                         @if ($product->seckill->is_before_start)
@@ -106,8 +106,8 @@
                                 <!--秒杀商品下单按钮开始-->
                                 @else
                                     <button class="btn btn-primary btn-add-to-cart">加入购物车</button>
-                                @endif
-                                <!--众筹商品下单按钮结束-->
+                            @endif
+                            <!--众筹商品下单按钮结束-->
                             </div>
                         </div>
                     </div>
@@ -189,8 +189,8 @@
                                 @endforeach
                             </div>
                         </div>
-                    @endif
-                    <!--猜你喜欢结束-->
+                @endif
+                <!--猜你喜欢结束-->
                 </div>
             </div>
         </div>
@@ -311,7 +311,7 @@
                     buttons: ['取消', '确定']
                 }).then(function (result) {
                     // 如果用户没有点击按钮，则说明也不做
-                    if (!result){
+                    if (!result) {
                         return;
                     }
                     // 构建请求参数
@@ -350,28 +350,28 @@
 
             // 如果是秒杀商品并且尚未开始秒杀
             @if($product->type == \App\Models\Product::TYPE_SECKILL && $product->seckill->is_before_start)
-                // 将秒杀开始时间转成一个 moment 对象
-                var startTime = moment.unix({{ $product->seckill->start_at->getTimestamp() }});
-                // 设定一个定时器
-                var hdl = setInterval(function () {
-                    // 获取当前时间
-                    var now = moment();
-                    // 如果当前时间晚于秒杀开始时间
-                    if (now.isAfter(startTime)) {
-                        // 将秒杀按钮上的 disabled 类移除，修改按钮文字
-                        $('.btn-seckill').removeClass('disabled').removeClass('countdown').text('立即抢购');
-                        // 清除定时器
-                        clearInterval(hdl);
-                        return;
-                    }
+            // 将秒杀开始时间转成一个 moment 对象
+            var startTime = moment.unix({{ $product->seckill->start_at->getTimestamp() }});
+            // 设定一个定时器
+            var hdl = setInterval(function () {
+                // 获取当前时间
+                var now = moment();
+                // 如果当前时间晚于秒杀开始时间
+                if (now.isAfter(startTime)) {
+                    // 将秒杀按钮上的 disabled 类移除，修改按钮文字
+                    $('.btn-seckill').removeClass('disabled').removeClass('countdown').text('立即抢购');
+                    // 清除定时器
+                    clearInterval(hdl);
+                    return;
+                }
 
-                    // 获取当前时间与秒杀开始时间相差的小时、分钟、秒数
-                    var hourDiff = startTime.diff(now, 'hours');
-                    var minDiff = startTime.diff(now, 'minutes') % 60;
-                    var secDiff = startTime.diff(now, 'seconds') % 60;
-                    // 修改按钮的文字
-                    $('.btn-seckill').text('抢购倒计时 ' + hourDiff + ':' + minDiff + ':' + secDiff);
-                }, 500);
+                // 获取当前时间与秒杀开始时间相差的小时、分钟、秒数
+                var hourDiff = startTime.diff(now, 'hours');
+                var minDiff = startTime.diff(now, 'minutes') % 60;
+                var secDiff = startTime.diff(now, 'seconds') % 60;
+                // 修改按钮的文字
+                $('.btn-seckill').text('抢购倒计时 ' + hourDiff + ':' + minDiff + ':' + secDiff);
+            }, 500);
             @endif
 
             // 秒杀按钮点击事件
@@ -403,9 +403,10 @@
                     if (!ret) {
                         return;
                     }
-                    // 构建请求参数
+                    // 从地址列表中找出当前用户选择的地址对象
+                    var address = _.find(addresses, {id: parseInt(addressSelector.val())});
                     var req = {
-                        address_id: addressSelector.val(),
+                        address: _.pick(address, ['province', 'city', 'district', 'address', 'zip', 'contact_name', 'contact_phone']),
                         sku_id: $('label.active input[name=skus]').val()
                     };
                     // 调用秒杀商品下单接口
