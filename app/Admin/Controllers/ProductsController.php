@@ -25,7 +25,7 @@ class ProductsController extends CommonProductsController
      *
      * @var string
      */
-    protected $title = '商品管理';
+    protected $title = '普通商品';
 
     /**
      * Make a show builder.
