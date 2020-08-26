@@ -7,7 +7,7 @@
 
 ## 功能
 
-![_big](https://github.com/buqiu/laravel-shop/blob/master/doc/%E6%B6%82%E5%91%80%E5%95%86%E5%9F%8E%E5%8A%9F%E8%83%BD%E5%9B%BE01.png)
+![_big](https://github.com/buqiu/laravel-shop/blob/master/doc/%E6%B6%82%E5%91%80%E5%95%86%E5%9F%8E%E5%8A%9F%E8%83%BD%E5%9B%BE02.png)
 
 
 ## 项目功能点
@@ -25,6 +25,11 @@
 - 商品收藏；
 - 订单退款流程；
 - 优惠券模块；
+- 商品类目
+- 众筹
+- 分期付款
+- 商品检索
+- 秒杀
 - 电商安全须知；
 - 数据备份。
 
@@ -126,18 +131,7 @@ MAIL_PORT=1025
 php artisan key:generate
 ```
 
-#### 6. 生成数据表及生成测试数据
-
-在 Homestead 的网站根目录下运行以下命令
-
-```shell script
-$ php artisan migrate --seed
-```
-
-初始的用户角色权限已使用数据迁移生成。
-
-
-#### 7. 创建软链
+#### 6. 创建软链
 
 接下来我们需要在 `public` 目录下创建一个连到 `storage/app/public` 目录下的软链接：
 
@@ -145,20 +139,46 @@ $ php artisan migrate --seed
 php artisan storage:link
 ```
 
-#### 8. 初始化数据库
+#### 7. 初始化
 
-执行数据库迁移
+- 执行数据库迁移
 
 ```shell script
 php artisan migrate
 ```
 
-导入管理后台数据
+- 执行 Elasticsearch 迁移
+
 ```shell script
-mysql laravel-shop < database/admin.sql
+php artisan es:migrate
 ```
 
-#### 9. 配置 hosts 文件
+- 导入管理后台数据
+
+```shell script
+php artisan db:seed --class=AdminTablesSeeder
+```
+
+- 创建后台用户
+
+```shell script
+php artisan admin:create-user
+```
+
+- 生成假数据
+
+```shell script
+php artisan db:seed
+php artisan db:seed --class=DDRProductsSeeder
+```
+
+- 同步商品数据到 Elasticsearch 
+
+```shell script
+php artisan es:sync-products
+```
+
+#### 8. 配置 hosts 文件
 
     echo "192.168.10.10   shop.test" | sudo tee -a /etc/hosts
 
@@ -215,10 +235,13 @@ password: admin
 
 | 命令行名字 | 说明 | Cron | 代码调用 |
 | --- | --- | --- | --- |
-
+| cron:calculate-installment-fine |	计算分期付款逾期费 | 每天凌晨 00:00 执行 | 无 |
+| cron:finish-crowdfunding | 结束众筹 | 每分钟执行一次 | 无 |
+| es:migrate |	Elasticsearch 索引结构迁 | 无 | ProjectIndex::rebuild 创建索引  |
+| es:sync-products | 将商品数据同步到 Elasticsearch | 无 | 无 |
 ## 队列清单
 
 | 名称 | 说明 | 调用时机 |
 | --- | --- | --- |
-| OrderPaid.php | 订单支付 | 订单支付（修改商品数、订单支付成功发邮件） |
+| OrderPaid.php | 订单支付 | 订单支付（修改商品数、订单支付成功发邮件、支付成功后更新众筹进度） |
 | OrderReviewd.php | 订单评论 | 订单评论（修改商品评价数） |
