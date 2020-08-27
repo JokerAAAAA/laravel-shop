@@ -264,7 +264,7 @@
                 // 调用创建分期付款接口
                 axios.post('{{ route('payment.installment', ['order' => $order->id]) }}', {count: $(this).data('count')})
                     .then(function (response) {
-                        location.href = '/installments' + response.data.id;
+                        location.href = '/installments/' + response.data.id;
                     });
             });
         });

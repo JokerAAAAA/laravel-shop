@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Cron;
 
 use App\Models\Installment;
+use Brick\Math\RoundingMode;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -67,7 +68,7 @@ class CalculateInstallmentFine extends Command
                         $fine = big_number($base)
                             ->multipliedBy($overdueDays)
                             ->multipliedBy($item->installment->fine_rate)
-                            ->dividedBy(100);
+                            ->dividedBy(100, 2, RoundingMode::UP);
                         // 避免逾期费高于本金与手续费之和，使用 compareTo 方法来判断
                         // 如果 $fine 大于 $base，则 compareTo 会返回 1，等于返回 0，小于返回 -1
                         $fine = big_number($fine)->compareTo($base) === 1 ? $base : $fine;

@@ -9,9 +9,6 @@ use App\Models\Product;
 use App\SearchBuilders\ProductSearchBuilder;
 use App\Services\CategoryService;
 use App\Services\ProductService;
-use Brick\Math\BigDecimal;
-use Brick\Math\BigInteger;
-use Brick\Math\BigNumber;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -26,7 +23,6 @@ class ProductsController extends Controller
      */
     public function index(Request $request, CategoryService $categoryService)
     {
-
 
         $page = $request->input('page', 1);
         $perPage = 16;

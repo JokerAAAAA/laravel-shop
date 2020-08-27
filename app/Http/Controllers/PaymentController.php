@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidRequestException;
 use App\Models\Installment;
 use App\Models\Order;
+use Brick\Math\BigDecimal;
+use Brick\Math\RoundingMode;
 use Carbon\Carbon;
 use Endroid\QrCode\QrCode;
 use Illuminate\Http\Request;
@@ -252,9 +254,9 @@ class PaymentController extends Controller
         // 第一期的还款截止日期为明天凌晨 0 点
         $dueDate = Carbon::tomorrow();
         // 计算每一期的本金
-        $base = big_number($order->total_amount)->dividedBy($count);
+        $base = big_number($order->total_amount)->dividedBy($count, 2, RoundingMode::UP);
         // 计算每一期的手续费
-        $fee = big_number($base)->multipliedBy($installment->fee_rate)->dividedBy(100);
+        $fee = big_number($base)->multipliedBy($installment->fee_rate)->dividedBy(100, 2, RoundingMode::UP);
         // 根据用户选择的还款期数，创建对应数量的还款计划
         for ($i = 0; $i < $count; $i++) {
             // 最后一期的本金需要用总本金减去当前面机器的本金

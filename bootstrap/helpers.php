@@ -76,6 +76,6 @@ if (!function_exists('big_number')) {
      */
     function big_number($number, $scale = 2)
     {
-        return Brick\Math\BigRational::of($number)->toScale($scale);
+        return Brick\Math\BigNumber::of($number)->toScale($scale);
     }
 }
