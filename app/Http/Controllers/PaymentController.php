@@ -254,12 +254,12 @@ class PaymentController extends Controller
         // 计算每一期的本金
         $base = big_number($order->total_amount)->dividedBy($count);
         // 计算每一期的手续费
-        $fee = big_number($base)->multiply($installment->fee_rate)->dividedBy(100);
+        $fee = big_number($base)->multipliedBy($installment->fee_rate)->dividedBy(100);
         // 根据用户选择的还款期数，创建对应数量的还款计划
         for ($i = 0; $i < $count; $i++) {
             // 最后一期的本金需要用总本金减去当前面机器的本金
             if ($i === $count - 1) {
-                $base = big_number($order->total_amount)->subtract(big_number($base)->multiply($count - 1));
+                $base = big_number($order->total_amount)->minus(big_number($base)->multipliedBy($count - 1));
             }
             $installment->items()->create(
                 [
