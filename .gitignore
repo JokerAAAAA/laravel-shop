@@ -5,6 +5,7 @@
 /public/js
 /public/css
 /public/fonts
+resources/wechat_pay_cert
 /storage/*.key
 /vendor
 /.idea
