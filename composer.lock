@@ -971,7 +971,7 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.8.2",
+            "version": "v1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
