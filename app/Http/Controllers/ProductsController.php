@@ -23,7 +23,6 @@ class ProductsController extends Controller
      */
     public function index(Request $request, CategoryService $categoryService)
     {
-
         $page = $request->input('page', 1);
         $perPage = 16;
 

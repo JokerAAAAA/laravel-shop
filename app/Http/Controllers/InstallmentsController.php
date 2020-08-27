@@ -147,7 +147,7 @@ class InstallmentsController extends Controller
         $wechatOrder = app('wechatpay')->scan(
             [
                 'out_trade_no' => $installment->no.'_'.$nextItem->sequence,
-                'total_fee' => $nextItem->total * 100,
+                'total_fee' => $nextItem->total->multipliedBy(100)->toScale(0),
                 'body' => '支付'.config('app.name').'的分期订单：'.$installment->no,
                 'notify_url' => ngrok_url('installments.wechat.notify'),
             ]
@@ -261,7 +261,7 @@ class InstallmentsController extends Controller
                 );
                 if ($item->sequence === 0) {
                     $installment->update(['status' => Installment::STATUS_REPAYING]);
-                    $installment->order->udpate(
+                    $installment->order->update(
                         [
                             'paid_at' => Carbon::now(),
                             'payment_method' => 'installment',
