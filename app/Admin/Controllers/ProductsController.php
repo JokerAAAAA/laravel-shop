@@ -40,7 +40,6 @@ class ProductsController extends CommonProductsController
         $show->field('id', __('编号'));
         $show->field('title', __('商品名称'));
         $show->field('image', __('封面图片'))->image();
-        $show->field('description', __('商品描述'));
         $show->field('on_sale', __('上架'))->as(
             function ($on_sale) {
                 if ($on_sale) {
