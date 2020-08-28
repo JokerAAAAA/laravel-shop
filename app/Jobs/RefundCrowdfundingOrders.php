@@ -45,7 +45,7 @@ class RefundCrowdfundingOrders implements ShouldQueue
         if ($this->crowdfunding->status !== CrowdfundingProduct::STATUS_FAIL) {
             return;
         }
-        // 将定时任务中的众筹失败退款代表移到这里
+        // 将定时任务中的众筹失败退款代码移到这里
         $orderService = app(OrderService::class);
         Order::query()
             // 订单类型为众筹商品订单
