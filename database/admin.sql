@@ -21,7 +21,7 @@
 
 LOCK TABLES `admin_menu` WRITE;
 /*!40000 ALTER TABLE `admin_menu` DISABLE KEYS */;
-INSERT INTO `admin_menu` VALUES (1,0,1,'仪表盘','fa-bar-chart','/',NULL,NULL,NULL),(2,0,9,'系统管理','fa-tasks',NULL,NULL,NULL,'2020-08-20 05:52:54'),(3,2,10,'管理员管理','fa-users','auth/users',NULL,NULL,'2020-08-20 05:52:54'),(4,2,11,'角色管理','fa-user','auth/roles',NULL,NULL,'2020-08-20 05:52:54'),(5,2,12,'权限管理','fa-ban','auth/permissions',NULL,NULL,'2020-08-20 05:52:54'),(6,2,13,'菜单管理','fa-bars','auth/menu',NULL,NULL,'2020-08-20 05:52:54'),(7,2,14,'操作日志','fa-history','auth/logs',NULL,NULL,'2020-08-20 05:52:54'),(8,0,2,'用户管理','fa-users','/users',NULL,NULL,NULL),(9,0,3,'商品管理','fa-cubes',NULL,NULL,NULL,'2020-08-14 15:00:45'),(10,0,7,'订单管理','fa-rmb','/orders',NULL,NULL,'2020-08-20 05:52:54'),(11,0,8,'优惠券','fa-tags','/coupon_codes',NULL,NULL,'2020-08-20 05:52:54'),(12,9,4,'普通商品','fa-cube','/products',NULL,'2020-08-14 15:00:29','2020-08-20 05:52:54'),(13,9,5,'众筹商品','fa-flag-checkered','/crowdfunding_products',NULL,'2020-08-14 15:01:55','2020-08-20 05:52:54'),(14,9,6,'秒杀商品','fa-bolt','/seckill_products',NULL,'2020-08-20 05:52:43','2020-08-20 05:52:54');
+INSERT INTO `admin_menu` VALUES (1,0,1,'仪表盘','fa-bar-chart','/',NULL,NULL,NULL),(2,0,10,'系统管理','fa-tasks',NULL,NULL,NULL,'2020-08-28 01:50:04'),(3,2,11,'管理员管理','fa-users','auth/users',NULL,NULL,'2020-08-28 01:50:04'),(4,2,12,'角色管理','fa-user','auth/roles',NULL,NULL,'2020-08-28 01:50:04'),(5,2,13,'权限管理','fa-ban','auth/permissions',NULL,NULL,'2020-08-28 01:50:04'),(6,2,14,'菜单管理','fa-bars','auth/menu',NULL,NULL,'2020-08-28 01:50:04'),(7,2,15,'操作日志','fa-history','auth/logs',NULL,NULL,'2020-08-28 01:50:04'),(8,0,2,'用户管理','fa-users','/users',NULL,NULL,NULL),(9,0,4,'商品管理','fa-cubes',NULL,NULL,NULL,'2020-08-28 01:50:04'),(10,0,8,'订单管理','fa-rmb','/orders',NULL,NULL,'2020-08-28 01:50:04'),(11,0,9,'优惠券','fa-tags','/coupon_codes',NULL,NULL,'2020-08-28 01:50:04'),(12,0,3,'类目管理','fa-bars','/categories',NULL,'2020-08-14 15:00:29','2020-08-28 01:58:13'),(13,9,5,'普通商品','fa-cube','/products',NULL,'2020-08-14 15:01:55','2020-08-28 01:50:04'),(14,9,6,'众筹商品','fa-flag-checkered','/crowdfunding_products',NULL,'2020-08-20 05:52:43','2020-08-28 01:50:04'),(15,9,7,'秒杀商品','fa-bolt','/seckill_products',NULL,'2020-08-21 01:49:41','2020-08-28 01:58:13');
 /*!40000 ALTER TABLE `admin_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `admin_users` WRITE;
 /*!40000 ALTER TABLE `admin_users` DISABLE KEYS */;
-INSERT INTO `admin_users` VALUES (1,'admin','$2y$10$z62lUE5JqdqmFVBTuSGNz.a8jmrWUpQUTOz/4LVey76FifJU.6U3C','管理员',NULL,'KXPtUbDcAmfpHvoQlZEfWBF2mjH3ne4PDNRdjFSuiHnsy7G5i6UjYQxNdUpg','2020-08-14 14:31:46','2020-08-14 14:31:46');
+INSERT INTO `admin_users` VALUES (1,'admin','$2y$10$z62lUE5JqdqmFVBTuSGNz.a8jmrWUpQUTOz/4LVey76FifJU.6U3C','管理员',NULL,'heevqPfGr3HxGiE35kbVEW78iKbi7WCcEausJlS9Ajc8HkRFe0RzcdmWkHxE','2020-08-14 14:31:46','2020-08-14 14:31:46');
 /*!40000 ALTER TABLE `admin_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -103,4 +103,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-20 15:23:14
+-- Dump completed on 2020-08-28 10:00:50

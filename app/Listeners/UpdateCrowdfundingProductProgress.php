@@ -37,7 +37,7 @@ class UpdateCrowdfundingProductProgress implements ShouldQueue
         $data = Order::query()
             // 查出订单类型为众筹订单
             ->where('type', Order::TYPE_CROWDFUNDING)
-            // 并且已支付的
+            // 并且是已支付的
             ->whereNotNull('paid_at')
             ->whereHas(
                 'items',
@@ -50,7 +50,7 @@ class UpdateCrowdfundingProductProgress implements ShouldQueue
                     // 取出订单总金额
                     \DB::raw('sum(total_amount) as total_amount'),
                     // 取出去重的支持用户数
-                    \DB::raw('count(distinct(user_id) as user_count)'),
+                    \DB::raw('count(distinct(user_id)) as user_count'),
                 ]
             );
         $crowdfunding->update(
