@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // 订单管理-秒杀商品创建订单
-Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store')->middleware('random_drop:80');
+Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store')->middleware('random_drop:20');
 
 // 商品列表
 Route::redirect('/', '/products')->name('root');

@@ -169,6 +169,15 @@ class OrderService
         return $order;
     }
 
+    /**
+     * 秒杀下单逻辑
+     *
+     * @param User $user
+     * @param $addressData
+     * @param ProductSku $sku
+     * @return mixed
+     * @throws \Throwable
+     */
     public function seckill(User $user, $addressData, ProductSku $sku)
     {
         $order = \DB::transaction(

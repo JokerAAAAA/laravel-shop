@@ -223,9 +223,9 @@
                         // 如果返回码是 401 代表没有登录
                         if (error.response && error.response.status === 401) {
                             swal('请先登录', '', 'error')
-                        } else if (error.response && (error.response.data.msg || error.response.data.message)) {
-                            // 其他有 msg 或者 message 字段的情况，将 msg 提示给用户
-                            swal(error.response.data.msg ? error.response.data.msg : error.response.data.message, '', 'error');
+                        } else if (error.response && (error.response.data.message || error.response.data.message)) {
+                            // 其他有 msg 或者 message 字段的情况，将 message 提示给用户
+                            swal(error.response.data.message ? error.response.data.message : error.response.data.message, '', 'error');
                         } else {
                             // 其他情况应该是系统挂了
                             swal('系统错误', '', 'error');
@@ -428,7 +428,7 @@
                                 html += '</div>';
                                 swal({content: $(html)[0], icon: 'error'})
                             } else if (error.response.status === 403) {
-                                swal(error.response.data.msg, '', 'error');
+                                swal(error.response.data.message, '', 'error');
                             } else {
                                 swal('系统错误', '', 'error');
                             }

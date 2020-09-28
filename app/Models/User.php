@@ -42,6 +42,16 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * 默认头像
+     *
+     * @return mixed
+     */
+    public function getAvatarAttribute()
+    {
+        return \Avatar::create($this->name)->toBase64();
+    }
+
+    /**
      * 地址信息
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
